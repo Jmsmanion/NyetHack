@@ -1,3 +1,5 @@
+import kotlin.random.Random
+
 fun main(args: Array<String>) {
     val name = "Madrigal"
     var healthPoints = 89
@@ -12,7 +14,8 @@ fun main(args: Array<String>) {
     // Player status
     printPlayerStatus(auraColor, isBlessed, name, healthStatus)
 
-    castFireball()
+    var intoxLevel = castFireball()
+    inebriationLevel(intoxLevel)
 }
 
 private fun formatHealthStatus(healthPoints: Int, isBlessed: Boolean) =
@@ -34,11 +37,21 @@ private fun printPlayerStatus(auraColor: String, isBlessed: Boolean, name: Strin
     println("$name $healthStatus")
 }
 
-private fun auraColor(isBlessed: Boolean, healthPoints: Int, isImmortal: Boolean): String {
-    val auraVisible = isBlessed && healthPoints > 50 || isImmortal
-    val auraColor = if (auraVisible) "GREEN" else "NONE"
-    return auraColor
+private fun auraColor(isBlessed: Boolean, healthPoints: Int, isImmortal: Boolean) =
+    if (isBlessed && healthPoints > 50 || isImmortal) "GREEN" else "NONE"
+
+private fun castFireball(numFireballs: Int = 2): Int {
+    println("A glass of Fireball springs into existence. (x$numFireballs)")
+    var intoxLevel = Random.nextInt(0, 50)
+    return intoxLevel
 }
 
-private fun castFireball(numFireballs: Int = 2) =
-    println("A glass of Fireball springs into existence. (x$numFireballs)")
+private fun inebriationLevel(intoxLevel: Int) =
+        when (intoxLevel) {
+            in 1..10 -> println("tipsy")
+            in 11..20 -> println("sloshed")
+            in 21..30 -> println("soused")
+            in 31..40 -> println("stewed")
+            in 41..50 -> println("t0aSt3d")
+            else -> println("Beermancer")
+        }
